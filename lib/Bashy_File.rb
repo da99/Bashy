@@ -8,8 +8,14 @@ class Bashy_File
     
     def initialize *args
       super
-      package(:create) { run cmd_create }
-      package(:append) { run cmd_append }
+    end
+
+    def create
+      cmd cmd_create_file
+    end
+
+    def append
+      cmd cmd_append
     end
 
     def sudo *args, &blok

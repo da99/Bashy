@@ -8,10 +8,16 @@ class Bashy_File
     
     def initialize *args
       super
-      package(:create) { run cmd_create }
-      package(:append) { run cmd_append }
     end
 
+    def create
+      cmd cmd_create
+    end
+
+    def append
+      cmd cmd_append
+    end
+    
     def sudo *args, &blok
       return(@sudo ? 'sudo' : nil) if args.empty? && !block_given?
       super

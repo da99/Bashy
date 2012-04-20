@@ -2,7 +2,11 @@
 Bashy
 ================
 
-A Ruby\_gem.
+Classes to help you generate common tasks using bash:
+
+* creating/deleting files and directories.
+* chmod
+* chdir
 
 Installation
 ------------
@@ -14,8 +18,21 @@ Usage
 
     require "Bashy"
     
-    Bashy
+    cmd = Bashy_File.new { |o|
+    
+      o.mode 0770
+      o.sudo true
+      o.path "/my_secret_dir"
+      
+    }.create
 
+    `#{cmd}`
+
+Available classes:
+
+* Bashy\_File
+* Bashy\_Dir
+* Bashy\_Apt
 
 Run Tests
 ---------

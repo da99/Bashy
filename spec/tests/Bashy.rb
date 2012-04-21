@@ -98,3 +98,25 @@ describe "Bashy_File" do
   
 end # === Bashy_File
 
+module Print_Cmd
+  
+  Log = []
+  def run cmd
+    Log << cmd
+  end
+
+end # === Print_Cmd
+
+describe "Bashy run" do
+  
+  it "can be overriden" do
+    d = Bashy_Dir.new { |o|
+      o.path "/tmp/Print"
+    }
+    d.extend Print_Cmd
+    d.create
+    Print_Cmd::Log.size.should == 1
+  end
+  
+end # === Bashy run
+

@@ -51,3 +51,50 @@ describe "Bashy_Dir" do
   
 end # === Bashy_Dir
 
+describe "Bashy_File" do
+  
+  it "provides sudo as an option" do
+    Bashy_File.new { |f|
+      f.sudo true
+      f.content "a"
+      f.path "/tmp/delete.txt"
+    }.create.strip
+    .should == "echo #{'a'.inspect} > sudo tee /tmp/delete.txt"
+  end
+  
+  it "provides create as a command" do
+    Bashy_File.new { |f|
+      f.content "my content"
+      f.path "/tmp/delete.txt"
+    }.create.strip
+    .should == "echo #{'my content'.inspect} >  tee /tmp/delete.txt"
+  end
+  
+  it "provides append as a command" do
+    Bashy_File.new { |f|
+      f.content "my line"
+      f.path "/tmp/delete.txt"
+    }.append.strip
+    .should == "echo #{'my line'.inspect} >>  tee /tmp/delete.txt"
+  end
+
+  it "provides chmod as an option" do
+    Bashy_File.new { |f|
+      f.content "my file"
+      f.path "/tmp/delete.txt"
+      f.mode "0644"
+    }.create.strip.split(%r! +&& +!).last
+    .should == %@chmod 0644 /tmp/delete.txt@
+  end
+
+  it "provides chown as an option" do
+    Bashy_File.new { |f|
+      f.content "new file"
+      f.path "/tmp/new.txt"
+      f.user_and_group "bob"
+    }.create.strip.split(%r! +&& +!).last
+    .should == %@chown bob:bob /tmp/new.txt@
+  end
+  
+end # === Bashy_File
+

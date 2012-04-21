@@ -24,6 +24,22 @@ class Bashy
       end
     end
 
+    def user_and_group val = :_RETURN_
+      if val == :_RETURN_
+        og = [@user_and_group, @user_and_group]
+        .compact
+        .map(&:to_s)
+        .map(&:strip)
+        .reject(&:empty?)
+        .join(':')
+
+        return nil if og.empty?
+        og
+      else
+        @user_and_group = val
+      end
+    end
+
   end # === Base
   
 end # === class Bashy
